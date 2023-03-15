@@ -6,12 +6,12 @@ export class Database {
   #database = {};
 
   constructor() {
-    fs.readFile(databasePath, 'utf-8')
+    fs.readFile(databasePath, 'utf8')
     .then(data => {
-      this.#database = JSON.pase(data)
+      this.#database = JSON.parse(data)  
     })
     .catch(() => {
-      this.#persist
+      this.#persist()
     })
   }
 
@@ -32,8 +32,8 @@ export class Database {
   }
 
   select(table, search) {
-    let data = this.#database[table] ?? [];
-
+    let data =  this.#database[table] ?? []
+    
     if(search) {
       data = data.filter(row => {
         return Object.entries(search).some(([key, value]) => {
@@ -43,7 +43,6 @@ export class Database {
         })
       })
     }
-
     return data;
   }
 
